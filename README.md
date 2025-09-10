@@ -73,4 +73,52 @@ Module này tích hợp tất cả các thành phần:
 - Domain-centric: Logic nghiệp vụ được bảo vệ và tập trung
 Kiến trúc này phù hợp cho các ứng dụng enterprise phức tạp với nhiều domain logic và yêu cầu về scalability, maintainability cao.
 
+---
+Note: 
+Value Objects là các đối tượng không có identity, được định nghĩa bởi các thuộc tính của chúng và bất biến (immutable).
+- Immutable (không thể thay đổi sau khi tạo)
+- Không có identity (được so sánh bằng giá trị)
+- Có thể có business logic
+- Sử dụng static factory methods
+
+---
+Entities có identity duy nhất và có thể thay đổi trạng thái theo thời gian.
+- Có identity duy nhất (ID)
+- Có thể thay đổi trạng thái
+- Kế thừa từ BaseDomainModel
+- Sử dụng static factory methods
+- ---
+
+Aggregate Root là entity chính quản lý tính nhất quán của aggregate và là điểm truy cập duy nhất từ bên ngoài.
+- Kế thừa từ AggregateRoot (NestJS CQRS)
+- Quản lý domain events
+- Đảm bảo business invariants
+- Có validation logic
+- Là điểm truy cập duy nhất cho aggregate
+
+- ---
+Domain Services chứa business logic không thuộc về một entity hoặc value object cụ thể nào.
+
+Repository cung cấp interface để truy cập aggregate roots.
+- Kế thừa từ EntityRepository
+- Chuyển đổi giữa Entity và Domain Model
+- Cung cấp interface domain-friendly
+- Ẩn chi tiết persistence
+
+Validation và Business Rules:
+- Validation trong constructor của domain models
+- Business rules trong domain services
+- Invariants được đảm bảo bởi aggregate roots
+Immutability và Encapsulation:
+- Value Objects hoàn toàn immutable
+- Entities có controlled mutability
+- Private constructors với static factory methods
+Event-Driven Architecture:
+- Domain events cho side effects
+- Aggregate roots publish events
+- Event handlers xử lý cross-aggregate logic
+
+- ---
+
+
 
